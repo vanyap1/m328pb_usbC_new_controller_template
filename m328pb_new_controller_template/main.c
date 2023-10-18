@@ -88,7 +88,8 @@ int main(void)
 			BAT_VOLT = get_mVolt(ADC5_PIN);
 			rtc_int_request = 0;
 			printf("Time: %02d-%02d-20%02d; %02d:%02d:%02d; BAT: %03d\r\n", sys_rtc.date, sys_rtc.month, sys_rtc.year, sys_rtc.hour, sys_rtc.minute, sys_rtc.second, BAT_VOLT);
-			printf("UNIX time %u\r\n", convert_to_timestamp(&sys_rtc));
+			uint32_t UNIXtime =  convert_to_timestamp(&sys_rtc);
+			printf("UNIX time %lu\r\n", UNIXtime);
 			gpio_set_pin_level(&ext_led , true);
 			if(BAT_VOLT > BAT_LOW_LEVEL){
 				_delay_ms(3);	

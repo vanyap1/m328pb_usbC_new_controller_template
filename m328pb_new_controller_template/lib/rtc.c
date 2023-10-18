@@ -72,25 +72,27 @@ uint8_t DECtoBCD(uint8_t val)
 }
 
 uint32_t convert_to_timestamp(const rtc_date *date) {
-	uint16_t year = date->year;
+	uint8_t year = date->year;
 	uint8_t month = date->month;
 	uint8_t day = date->date;
 	uint8_t hour = date->hour;
 	uint8_t minute = date->minute;
 	uint8_t second = date->second;
-	
-	uint8_t days_in_month_array[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+	uint8_t days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-		days_in_month_array[1] = 29;
+		days_in_month[1] = 29;
 	}
+
 	uint32_t timestamp = 0;
 	timestamp += second;
 	timestamp += minute * 60;
 	timestamp += hour * 3600;
-	for (uint32_t i = 0; i < month - 1; i++) {
-		timestamp += days_in_month_array[i] * 86400;
+	for (uint8_t i = 0; i < month - 1; i++) {
+		timestamp += days_in_month[i] * 86400;
 	}
-	for (int i = 1970; i < year; i++) {
+
+	for (uint8_t i = 0; i < year; i++) {
 		if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0)) {
 			timestamp += 31622400; 
 			} else {
@@ -98,5 +100,6 @@ uint32_t convert_to_timestamp(const rtc_date *date) {
 		}
 	}
 	timestamp += (day - 1) * 86400;
+
 	return timestamp;
 }
