@@ -45,5 +45,5 @@ enum{
 void twi_init(uint32_t speed);
 uint8_t twi_write(uint8_t addr,uint8_t reg,uint8_t *data,uint16_t len);
 uint8_t twi_read(uint8_t addr,uint8_t reg,uint8_t *data,uint16_t len);
-
+uint8_t twi_transfer(uint8_t addr,uint8_t *data,uint16_t len);
 #endif /* TWI_HAL_H_ */

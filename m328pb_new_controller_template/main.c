@@ -36,12 +36,13 @@ gpio lcd_blk = {(uint8_t *)&PORTC , PORTC3};
 gpio ext_led = {(uint8_t *)&PORTD , PORTC5};
 gpio deb_led = {(uint8_t *)&PORTB , PORTB5};		
 	
-rtc_date sys_rtc = {.date = 18,
+rtc_date sys_rtc = {
+	.date = 27,
 	.month = 10,
 	.year = 23,
-	.dayofweek = 1,
-	.hour = 0,
-	.minute = 18,
+	.dayofweek = 6,
+	.hour = 16,
+	.minute = 52,
 	.second = 00
 };
 
@@ -84,8 +85,21 @@ int main(void)
 	adc_init();
 	spi1_init();
 	lcd_gpio_init();
-	u8g2_Setup_st7565_zolen_128x64_f( &lcd, U8G2_MIRROR_VERTICAL, lcd_hw_spi, fake_delay_fn);
-	//u8g2_Setup_st7565_zolen_128x64_f(&lcd, U8G2_MIRROR_VERTICAL, u8x8_byte_4wire_sw_spi, lcd_software_spi);
+	
+	
+	
+	//u8g2_Setup_st7565_zolen_128x64_f( &lcd, U8G2_MIRROR_VERTICAL, lcd_hw_spi, fake_delay_fn);					//HW SPI
+	//u8g2_Setup_st7565_zolen_128x64_f(&lcd, U8G2_MIRROR_VERTICAL, u8x8_byte_4wire_sw_spi, lcd_software_spi);	//SW SPI
+	
+	
+	//OLED display
+	u8g2_Setup_ssd1306_i2c_128x32_univision_f(&lcd, U8G2_R0, u8x8_byte_sw_i2c, fake_delay_fn);
+	//u8x8_byte_stm32hal_hw_i2c
+	u8g2_SetI2CAddress(&lcd, 0x3C);
+
+	
+	//End of OLED Display
+	
 	
 	
 	
@@ -97,8 +111,9 @@ int main(void)
 	u8g2_SetFlipMode(&lcd, 1);
 	u8g2_SetContrast(&lcd, 120);
 	u8g2_ClearBuffer(&lcd);
-	//u8g2_SetFont(&u8g2, u8g2_font_5x8_t_cyrillic);
+	//u8g2_SetFont(&lcd, u8g2_font_5x8_t_cyrillic);
 	u8g2_SetFont(&lcd, u8g2_font_6x10_mf);
+	//u8g2_SetFont(&lcd, u8g2_font_ncenB14_tr);
 	u8g2_DrawStr(&lcd, 1, 10, (void *)"RX MODULE");
 	u8g2_SendBuffer(&lcd);
     while (1) 
@@ -110,17 +125,17 @@ int main(void)
 			rtc_int_request = 0;
 			//sprintf(char_array, "Time: %02d-%02d-20%02d; %02d:%02d:%02d; BAT: %03d\r\n", sys_rtc.date, sys_rtc.month, sys_rtc.year, sys_rtc.hour, sys_rtc.minute, sys_rtc.second, BAT_VOLT);
 			sprintf(char_array, "Date: %02d-%02d-20%02d", sys_rtc.date, sys_rtc.month, sys_rtc.year);
-			u8g2_DrawStr(&lcd, 1, 10, (void *)char_array);
+			u8g2_DrawStr(&lcd, 1, 8, (void *)char_array);
 			
 			sprintf(char_array, "Time: %02d:%02d:%02d", sys_rtc.hour, sys_rtc.minute, sys_rtc.second);
-			u8g2_DrawStr(&lcd, 1, 20, (void *)char_array);
-			
+			u8g2_DrawStr(&lcd, 1, 17, (void *)char_array);
+			//
 			sprintf(char_array, "BAT: %03d", BAT_VOLT);
-			u8g2_DrawStr(&lcd, 1, 30, (void *)char_array);
-			
+			u8g2_DrawStr(&lcd, 1, 25, (void *)char_array);
+			//
 			uint32_t UNIXtime = convert_to_timestamp(&sys_rtc);
 			sprintf(char_array, "UNIX time %lu", UNIXtime);
-			u8g2_DrawStr(&lcd, 1, 40, (void *)char_array);
+			u8g2_DrawStr(&lcd, 1, 32, (void *)char_array);
 			
 			
 			
@@ -128,12 +143,12 @@ int main(void)
 			//printf("UNIX time %lu\r\n", UNIXtime);
 			
 			
-			if(BAT_VOLT < BAT_LOW_LEVEL){
-				_delay_ms(3);	
-			}
-			gpio_set_pin_level(&ext_led , true);
+			//if(BAT_VOLT < BAT_LOW_LEVEL){
+				//_delay_ms(3);	
+			//}
+			//gpio_set_pin_level(&ext_led , true);
 			u8g2_SendBuffer(&lcd);
-			gpio_set_pin_level(&ext_led , false);
+			//gpio_set_pin_level(&ext_led , false);
 			
 		}
 		

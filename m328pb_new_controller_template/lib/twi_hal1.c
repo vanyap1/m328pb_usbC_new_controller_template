@@ -229,6 +229,39 @@ uint8_t twi_write(uint8_t addr,uint8_t reg,uint8_t *data,uint16_t len){
 	return err;
 }
 
+uint8_t twi_transfer(uint8_t addr,uint8_t *data,uint16_t len){
+	
+	uint16_t i = 0;
+	uint8_t err = TWI_OK;
+	
+	err = twi_start();
+	if(err != TWI_OK){
+		twi_stop();
+		return err;
+	}
+	TWDR1 = (addr << 1) | 0;
+	
+	
+	err = twi_addr_write_ack();
+	if(err != TWI_OK){
+		twi_stop();
+		return err;
+	}
+	
+	for(i = 0; i < len;i++){
+		TWDR1 = data[i];
+		err = twi_data_write_ack();
+		if(err != TWI_OK){
+			twi_stop();
+			return err;
+		}
+	}
+	
+	
+	twi_stop();
+	
+	return err;
+}
 
 
 

@@ -46,7 +46,7 @@
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
-          <IspClock>1805451</IspClock>
+          <IspClock>1583241</IspClock>
         </InterfaceProperties>
         <InterfaceName>ISP</InterfaceName>
       </ToolOptions>
@@ -55,7 +55,7 @@
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>ISP</avrtoolinterface>
-    <avrtoolinterfaceclock>1805451</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>1583241</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -85,6 +85,8 @@
         <avrgcc.linker.libraries.Libraries>
           <ListValues>
             <Value>libm</Value>
+            <Value>printf_flt</Value>
+            <Value>scanf_flt</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
         <avrgcc.assembler.general.IncludePaths>
@@ -120,6 +122,7 @@
             <Value>../u8g2</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
         <avrgcc.compiler.optimization.DebugLevel>Maximum (-g3)</avrgcc.compiler.optimization.DebugLevel>
