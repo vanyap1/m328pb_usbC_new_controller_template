@@ -4,6 +4,8 @@
 
 lib\adc_hal.c
 
+lib\bms_ina22x.c
+
 lib\display_fn.c
 
 lib\gpio_driver.c
