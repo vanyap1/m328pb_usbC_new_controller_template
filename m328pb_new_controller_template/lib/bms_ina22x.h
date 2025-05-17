@@ -176,7 +176,7 @@ typedef struct powerMeterData {
 
 uint8_t PowerMeterInit(uint8_t addr);
 uint16_t PowerMeterGetId();	
-static  uint16_t PowerMeterGetReg(uint8_t reg_addr);
+uint16_t PowerMeterGetReg(uint8_t reg_addr);
 uint8_t PowerMeterMeasure(powerData * pmStruc);
 
 

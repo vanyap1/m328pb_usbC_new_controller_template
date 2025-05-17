@@ -33,7 +33,7 @@ uint16_t PowerMeterGetId(){
 	return PowerMeterGetReg(MANUFACTURER_ID_REG);
 }
 
-static uint16_t PowerMeterGetReg(uint8_t reg_addr){
+uint16_t PowerMeterGetReg(uint8_t reg_addr){
 	uint8_t reg_raw[2] = {0, 0};	//Read one 16 bit word
 	twi_read(INA_ADDR, reg_addr, reg_raw, sizeof(reg_raw));
 	return (reg_raw[0] << 8) | reg_raw[1];

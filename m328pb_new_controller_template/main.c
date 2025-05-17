@@ -7,7 +7,6 @@
 
 
 #include "config.h"
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -97,8 +96,8 @@ int main(void)
 	
 	
 	
-	u8g2_Setup_st7565_zolen_128x64_f( &lcd, U8G2_MIRROR_VERTICAL, lcd_hw_spi, fake_delay_fn);					//HW SPI
-	//u8g2_Setup_ssd1306_i2c_128x32_univision_f(&lcd, U8G2_R0, u8x8_byte_sw_i2c, fake_delay_fn);					//0.91 OLED 128x32
+	//u8g2_Setup_st7565_zolen_128x64_f( &lcd, U8G2_MIRROR_VERTICAL, lcd_hw_spi, fake_delay_fn);					//HW SPI
+	u8g2_Setup_ssd1306_i2c_128x32_univision_f(&lcd, U8G2_R0, u8x8_byte_sw_i2c, fake_delay_fn);					//0.91 OLED 128x32
 	//u8g2_Setup_st7565_zolen_128x64_f(&lcd, U8G2_MIRROR_VERTICAL, u8x8_byte_4wire_sw_spi, lcd_software_spi);	//SW SPI
 	
 	
@@ -137,6 +136,8 @@ int main(void)
 			rtc_int_request = 0;
 			sprintf(char_array, "Time: %02d-%02d-20%02d; %02d:%02d:%02d; BAT: %03d\r\n", sys_rtc.date, sys_rtc.month, sys_rtc.year, sys_rtc.hour, sys_rtc.minute, sys_rtc.second, BAT_VOLT);
 			sprintf(char_array, "Date: %02d-%02d-20%02d", sys_rtc.date, sys_rtc.month, sys_rtc.year);
+			u8g2_ClearBuffer(&lcd);
+			u8g2_SetFont(&lcd, u8g2_font_6x10_mf);
 			u8g2_DrawStr(&lcd, 1, 8, (void *)char_array);
 			
 			sprintf(char_array, "Time: %02d:%02d:%02d", sys_rtc.hour, sys_rtc.minute, sys_rtc.second);
@@ -177,6 +178,11 @@ int main(void)
 				
 				
 			//}
+			
+			//u8g2_DrawButtonUTF8(&lcd, 100, 30, 1, 15, 1, 1 , "OK");
+			//u8g2_DrawTriangle(&lcd, 100, 32, 110, 21, 124, 32);
+			
+			
 			
 			
 			
